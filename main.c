@@ -1,17 +1,39 @@
 #include <gtk/gtk.h>
 
 
-void activate(GtkApplication *app, gpointer user_data) {
+void on_download_click(GtkButton *btn, gpointer user_data) {
 
-    printf("activate called\n");
+    GtkEntry *link_entry = user_data;
+
+    const gchar *link = gtk_entry_get_text(link_entry);
+    GString *command = g_string_new("yt-dlp ");
+
+    command = g_string_append(command, link);
+
+    system(command->str);
+
+    g_print("Downloading...");
+
+}
+
+
+
+
+void activate(GtkApplication *app, gpointer user_data) {
 
     GtkBuilder *builder;
     GtkWidget *window;
+    GtkWidget *btn;
+    GtkWidget *entry;
     
     builder = gtk_builder_new_from_file("ui.glade");
     window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+    btn = GTK_WIDGET(gtk_builder_get_object(builder, "download_button"));
+    entry = GTK_WIDGET(gtk_builder_get_object(builder, "link_entry"));
 
     gtk_window_set_application(GTK_WINDOW(window), GTK_APPLICATION(app));
+
+    g_signal_connect(btn, "clicked", G_CALLBACK(on_download_click), entry);
 
     gtk_window_present(GTK_WINDOW(window));
 
