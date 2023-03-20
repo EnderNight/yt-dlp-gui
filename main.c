@@ -3,17 +3,16 @@
 
 void on_download_click(GtkButton *btn, gpointer user_data) {
 
-    GtkEntry *link_entry = user_data;
+    GtkEntry *link_entry;
+    const gchar *link;
+    GString *command;
 
-    const gchar *link = gtk_entry_get_text(link_entry);
-    GString *command = g_string_new("yt-dlp ");
-
-    command = g_string_append(command, link);
+    link_entry = user_data;
+    link = gtk_entry_get_text(link_entry);
+    command = g_string_append(g_string_new("yt-dlp "), link);
 
     system(command->str);
-
-    g_print("Downloading...");
-
+    
 }
 
 
