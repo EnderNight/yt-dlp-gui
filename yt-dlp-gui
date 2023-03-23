@@ -1,0 +1,6 @@
+#! /usr/bin/env python3
+
+import lib.main
+
+if __name__ == "__main__":
+    lib.main.runApp()
